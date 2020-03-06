@@ -5,16 +5,16 @@
     Incorrect char order example:    { ) ] [ ( }     { [ ( ] ) }     { } [ ( ) }        ( [ ] } { )         { ( ] } ( ) .
 */
 
-#include <iostream>                     //Standard input output library.
-#include <string>                       //Library for .length() .
-#include <vector>                       //Library for vector container.
-#include <cstdlib>                      //Library for getchar() .
+#include <iostream>     //Standard input output library.
+#include <string>       //Library for .length() .
+#include <list>         //Library for vector container.
+#include <cstdlib>      //Library for getchar() .
 
 using namespace std;
 
 string str;
 
-vector<char> Char_arr;
+list<char> Char_arr;
 
 bool Check_array()
 {
@@ -22,13 +22,19 @@ bool Check_array()
     {
         while (Char_arr.size() >= 2)
         {
+            list<char>::iterator it = Char_arr.begin();
+
             bool not_found = true;
 
-            for (unsigned int i = 1; i < Char_arr.size(); i++)
+            int i = 0;
+
+            for (advance(it, 1); it != Char_arr.end(); it++)
             {
-                if ((int(Char_arr.at(0)) + 2 == int(Char_arr.at(i)) && (i % 2) != 0) || (int(Char_arr.at(0)) + 1 == int(Char_arr.at(i)) && (i % 2) != 0))
+                i++;
+
+                if ((int(*Char_arr.begin()) + 2 == int(*it) && (i % 2) != 0) || (int(*Char_arr.begin()) + 1 == int(*it) && (i % 2) != 0))
                 {
-                    Char_arr.erase(Char_arr.begin() + i);
+                    Char_arr.erase(it);
 
                     Char_arr.erase(Char_arr.begin());
 
