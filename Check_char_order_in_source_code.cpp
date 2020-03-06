@@ -7,7 +7,7 @@
 
 #include <iostream>     //Standard input output library.
 #include <string>       //Library for .length() .
-#include <list>         //Library for vector container.
+#include <list>         //Library for list container.
 #include <cstdlib>      //Library for getchar() .
 
 using namespace std;
@@ -61,13 +61,16 @@ bool Check_array()
 
 int main()
 {
-    str = { "{([])}" };
+    str = { "{ ( [ ] ) }" };
 
     int len = str.length();
 
     for (int a = 0; a < len; a++)
     {
-        Char_arr.push_back(str[a]);
+        if (str[a] != ' ')
+        {
+            Char_arr.push_back(str[a]);
+        }  
     }
 
     if (Check_array())
