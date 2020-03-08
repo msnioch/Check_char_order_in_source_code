@@ -1,4 +1,4 @@
-﻿/*  Check char order in source code v1 - check if str has char in correct order.
+﻿/*  Check char order in source code v1 - check if file has char in correct order.
 
     Correct char order example:      { ( [ ] ) }     { ( ) [ ] }     { } [ ( ) ]        ( [ ] { } )         [ ] ( { } ) .
 
@@ -8,11 +8,14 @@
 #include <iostream>     //Standard input output library.
 #include <string>       //Library for .length() .
 #include <list>         //Library for list container.
+#include <fstream>      //Library for external files.
 #include <cstdlib>      //Library for getchar() .
 
 using namespace std;
 
-string str;
+string file_patch;
+
+fstream file;
 
 list<char> Char_arr;
 
@@ -59,19 +62,67 @@ bool Check_array()
     return true;
 }
 
+bool Check_File_Patch(string& patch)                                        //Check if Question.txt patch is correct.
+{
+    file.open(patch, ios::in);                                              //Open file to read.
+
+    if (!file.good())                                                       //If patch isn't correct.
+    {
+        cout << "\nWrong file patch!\nPlease write the correct file patch or write END then press ENTER to exit application: ";
+
+        cin >> patch;                                                       //Change patch or exit application with END.
+
+        if (patch == "END")
+        {
+            exit(0);                                                        //Exit application.
+        }
+
+        return false;                                                       //If Question.txt patch isn't correct return false.
+    }
+
+    else
+    {
+        file.close();                                                       //Close file.
+
+        return true;                                                        //If Question.txt patch is correct return true.
+    }
+}
+
+void Save_File_Char(string file_patch)
+{
+    string current_line;
+
+    file.open(file_patch, ios::in);                                         //Open file to read.
+
+    while (getline(file, current_line))
+    {
+        int char_number = current_line.length();
+
+        for (int current_char = 0; current_char < char_number; current_char++)
+        {
+            if (current_line[current_char] == '{' || current_line[current_char] == '}' ||
+
+                current_line[current_char] == '(' || current_line[current_char] == ')' ||
+
+                current_line[current_char] == '[' || current_line[current_char] == ']')
+            {
+                Char_arr.push_back(current_line[current_char]);
+            }
+        }
+    }
+
+    file.close();                                                           //Close file.
+}
+
 int main()
 {
-    str = { "{ ( [ ] ) }" };
+    cout << "Please enter file patch to check:";
 
-    int len = str.length();
+    cin >> file_patch;
 
-    for (int a = 0; a < len; a++)
-    {
-        if (str[a] != ' ')
-        {
-            Char_arr.push_back(str[a]);
-        }  
-    }
+    while (!Check_File_Patch(file_patch));
+
+    Save_File_Char(file_patch);
 
     if (Check_array())
     {
@@ -83,7 +134,7 @@ int main()
         cout << "false" << endl;
     }
 
-    getchar();
+    getchar();      getchar();
 
     return 0;
 }
